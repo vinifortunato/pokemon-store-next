@@ -1,0 +1,34 @@
+.card {
+    width: 200px;
+    height: fit-content;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.cardImageWrapper {
+    width: 100%;
+    height: 200px;
+    cursor: pointer;
+}
+
+.cardImage {
+    width: 100%;
+}
+
+.cardDetails {
+    display: flex;
+    flex-direction: column;
+}
+
+.cardTitle {
+    margin-bottom: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.buttonAdapter {
+    display: flex;
+    flex: 1;
+    margin: 0px 10px 10px 10px;
+}

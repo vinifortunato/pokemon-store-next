@@ -1,0 +1,39 @@
+.cartWrapper {
+    background-color: #ffffff;
+    position: fixed;
+    width: 50%;
+    height: 100%;
+    top: 0px;
+    right: 0px;
+    padding: 10px;
+    transform: translate(100%);
+    transition: transform 300ms ease-in-out;
+    border-left: lightgray solid 1px;
+}
+
+.open {
+    transform: translate(0px);
+}
+
+.cartItem {
+    display: flex;
+    margin-bottom: 8px;
+    background-color: lightgray;
+}
+
+.cartItemImageWrapper {
+    display: flex;
+    height: 100px;
+    margin-right: 10px;
+}
+
+.cartItemImage {
+    width: auto;
+    height: 100%;
+}
+
+.cartItemDetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
