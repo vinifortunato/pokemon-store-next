@@ -2,6 +2,11 @@
   "name": "pokemon-store-next",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "email": "vinedfs@outlook.com",
+    "name": "Vinicius Fortunato",
+    "url": "https://github.com/vinifortunato"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
