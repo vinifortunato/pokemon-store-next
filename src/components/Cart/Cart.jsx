@@ -1,8 +1,9 @@
 
 import styles from './Cart.module.css'
+import { useSelector } from 'react-redux';
 
 const Cart = ({ open, onClose, onRemove }) => {
-    const items = [];
+    const items = useSelector(({ cart }) => cart);
 
     const handleClose = () => {
         onClose();
@@ -34,7 +35,7 @@ const Cart = ({ open, onClose, onRemove }) => {
     })
 
     return(
-        <div className={`cart-wrapper${open ? ' open' : ''}`}>
+        <div className={`${styles.cartWrapper} ${open ? `${styles.open}` : ''}`}>
             <button type="button" onClick={handleClose}>Fechar</button>
             <ul>
                 {map}
