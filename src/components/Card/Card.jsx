@@ -41,6 +41,16 @@ const Card = ({ name, onClick }) => {
        
     }, []);
 
+    const numberFormat = new Intl.NumberFormat(
+        'pt-BR',
+        { 
+            style: 'currency', 
+            currency: 'BRL'
+        }
+    );
+
+    const formatedPrice = details?.price ? numberFormat.format(details.price) : '...';
+
     return (
         <div className={styles.card}>
             <div className={styles.cardImageWrapper} onClick={handleClick}>
@@ -54,7 +64,7 @@ const Card = ({ name, onClick }) => {
             </div>
             <div className={styles.cardDetails}>
                 <p className={styles.cardTitle} onClick={handleClick}>{name}</p>
-                <p className={styles.cardTitle} onClick={handleClick}>{details?.price || '...'}</p>
+                <p className={styles.cardTitle} onClick={handleClick}>{formatedPrice}</p>
                 <div className={styles.buttonAdapter}>
                     <DefaultButton 
                         label="Adicionar ao carrinho"

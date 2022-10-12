@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 const cart = createSlice({
     name: 'cart',
@@ -9,8 +9,18 @@ const cart = createSlice({
             return data;
         },
         add: (state, action) => {
-            const newItem = action.payload;
-            return [...state, newItem];
+            const newItem = { ...action.payload };
+            const list = [...current(state)];
+            const index = list.findIndex((element) => {
+                return element.name === newItem.name;
+            });
+            const itemExists = index > -1;
+            if (!itemExists) {
+                newItem.amount = 1;
+                return [...state, newItem];
+            }
+            list[index] = { ...list[index], amount: list[index].amount + 1 };
+            return list;
         },
         remove: (state, action) => {
             const target = action.payload;

@@ -13,9 +13,20 @@ const Cart = ({ open, onClose, onRemove }) => {
         onRemove(item);
     }
 
-    let total = 0;
+    let subtotal = 0;
+    let totalItems = 0;
+    const numberFormat = new Intl.NumberFormat(
+        'pt-BR',
+        { 
+            style: 'currency', 
+            currency: 'BRL'
+        }
+    );
     const map = items.map((item) => {
-        total += item.price;
+        subtotal += item.price * item.amount;
+        totalItems += item.amount;
+
+        const formatedPrice = numberFormat.format(item.price);
         return (
             <li key={item.name} className={styles.cartItem}>
                 <div className={styles.cartItemImageWrapper}>
@@ -27,20 +38,24 @@ const Cart = ({ open, onClose, onRemove }) => {
                 </div>
                 <div className={styles.cartItemDetails}>
                     <p>{item.name}</p>
-                    <p>{item.price}</p>
+                    <p>{`x${item.amount} ${formatedPrice}`}</p>
                     <button type="button" onClick={() => handleRemove(item)}>Remover</button>
                 </div>
             </li>
         )
     })
 
+    const subtotalFormated = numberFormat.format(subtotal);
     return(
         <div className={`${styles.cartWrapper} ${open ? `${styles.open}` : ''}`}>
             <button type="button" onClick={handleClose}>Fechar</button>
-            <ul>
-                {map}
-            </ul>
-            <p>{`Total: ${total}`}</p>
+            <div className={styles.scrollableContent}>
+                <ul>
+                    {map}
+                </ul>
+            </div>
+            <p>{`Items: ${totalItems}`}</p>
+            <p>{`Subtotal: ${subtotalFormated}`}</p>
         </div>
     )
 }
