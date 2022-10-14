@@ -1,28 +1,32 @@
 
 import styles from './Cart.module.css'
 import { useSelector } from 'react-redux';
+import { CartProps } from './Cart.types';
+import { Pokemon } from '../../types/Common.types';
+import { useCallback } from 'react';
+import { AppState } from '../../store/store.types';
 
-const Cart = ({ open, onClose, onRemove }) => {
-    const items = useSelector(({ cart }) => cart);
+const Cart = ({ open, onClose, onRemove }: CartProps) => {
+    const items = useSelector(({ cart }: AppState) => cart);
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         onClose();
-    }
+    }, []);
 
-    const handleRemove = (item) => {
-        onRemove(item);
-    }
+    const handleRemove = useCallback((pokemon: Pokemon) => {
+        onRemove(pokemon);
+    }, []);
 
     let subtotal = 0;
     let totalItems = 0;
     const numberFormat = new Intl.NumberFormat(
         'pt-BR',
-        { 
-            style: 'currency', 
+        {
+            style: 'currency',
             currency: 'BRL'
         }
     );
-    const map = items.map((item) => {
+    const map = items.map((item: Pokemon) => {
         subtotal += item.price * item.amount;
         totalItems += item.amount;
 
@@ -30,7 +34,7 @@ const Cart = ({ open, onClose, onRemove }) => {
         return (
             <li key={item.name} className={styles.cartItem}>
                 <div className={styles.cartItemImageWrapper}>
-                    <img 
+                    <img
                         alt={item.name}
                         className={styles.cartItemImage}
                         src={item.sprite}
@@ -60,4 +64,4 @@ const Cart = ({ open, onClose, onRemove }) => {
     )
 }
 
-export default Cart; 
+export default Cart;

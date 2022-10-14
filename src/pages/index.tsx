@@ -6,21 +6,23 @@ import { userActions } from "../store/user";
 import { Header, Cart, List, DefaultButton } from '../components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState, useCallback } from 'react';
+import { AppState } from '../store/store.types';
+import { Pokemon } from '../types/Common.types';
 
 const Home = () => {
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
   const [cartOpen, setCartOpen] = useState(false);
 
-  const products = useSelector(({ products }) => products);
+  const products = useSelector(({ products }: AppState) => products);
 
   // Inicialização
   useEffect(() => {
     const localData = localStorage.getItem('pokemon-store');
     if (localData) {
         const parsed = JSON.parse(localData);
-        const { cart, products, user } = parsed; 
-        
+        const { cart, products, user } = parsed;
+
         dispatch(cartActions.init(cart));
 
         dispatch(productsActions.init({
@@ -30,7 +32,7 @@ const Home = () => {
         }));
 
         if (user) {
-            dispatch(userActions.init(user));
+            dispatch(userActions.set(user));
         }
         return;
     }
@@ -52,7 +54,7 @@ const Home = () => {
         });
     }, [dispatch]);
 
-    const handleAddToCart = useCallback((item) => {
+    const handleAddToCart = useCallback((item: Pokemon) => {
         dispatch(cartActions.add(item));
         setCartOpen(true);
     }, [dispatch]);
@@ -62,15 +64,18 @@ const Home = () => {
     }, []);
 
     const handleCartClose = () => {
-        setCartOpen(false);
+      setCartOpen(false);
     }
 
-    const handleCartItemRemove = useCallback((item) => {
-        dispatch(cartActions.remove(item));
+    const handleCartItemRemove = useCallback((item: Pokemon) => {
+      dispatch(cartActions.remove(item));
     }, [dispatch]);
 
     // Click no botão load more
     const handleLoadMore = useCallback(() => {
+        if (!products.next) {
+            return;
+        }
         fetch(products.next)
             .then((response) => {
                 return response.json();
@@ -104,11 +109,11 @@ const Home = () => {
                     onRemove={handleCartItemRemove}
                 />
                 <List
-                    content={products.list}
+                    items={products.list}
                     onItemClick={handleAddToCart}
                 />
                 <div>
-                    <DefaultButton 
+                    <DefaultButton
                         label="Carregar mais"
                         onClick={handleLoadMore}
                     />
