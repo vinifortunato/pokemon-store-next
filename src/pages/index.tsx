@@ -12,9 +12,9 @@ import { Pokemon } from '../types/Common.types';
 const Home = () => {
     const dispatch = useDispatch();
 
-  const [cartOpen, setCartOpen] = useState(false);
+    const [cartOpen, setCartOpen] = useState(false);
 
-  const products = useSelector(({ products }: AppState) => products);
+    const products = useSelector(({ products }: AppState) => products);
 
   // Inicialização
   useEffect(() => {

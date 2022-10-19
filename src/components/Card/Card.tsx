@@ -27,9 +27,6 @@ const Card = ({ name, onClick }: CardProps) => {
         request.then((event) => {
             handleResponse(event);
         });
-        request.catch(() => {
-            console.log('erro');
-        });
     }, [name]);
 
     useEffect(() => {
@@ -37,15 +34,8 @@ const Card = ({ name, onClick }: CardProps) => {
     }, [getPokemonDetails]);
 
     const handleAddClick = () => {
-        if (!details) {
-          return;
-        }
-        onClick(details);
+        onClick && onClick(details);
     }
-
-    const handleClick = useCallback(() => {
-
-    }, []);
 
     const numberFormat = new Intl.NumberFormat(
         'pt-BR',
@@ -58,8 +48,8 @@ const Card = ({ name, onClick }: CardProps) => {
     const formatedPrice = details?.price ? numberFormat.format(details.price) : '...';
 
     return (
-        <div className={styles.card}>
-            <div className={styles.cardImageWrapper} onClick={handleClick}>
+        <div className={styles.card} data-testid={`card-${name}`}>
+            <div className={styles.cardImageWrapper}>
             {details && (
                 <img
                     alt={name}
@@ -69,13 +59,14 @@ const Card = ({ name, onClick }: CardProps) => {
             )}
             </div>
             <div className={styles.cardDetails}>
-                <p className={styles.cardTitle} onClick={handleClick}>{name}</p>
-                <p className={styles.cardTitle} onClick={handleClick}>{formatedPrice}</p>
+                <p className={styles.cardTitle}>{name}</p>
+                <p className={styles.cardTitle}>{formatedPrice}</p>
                 <div className={styles.buttonAdapter}>
                     <DefaultButton
                         label="Adicionar ao carrinho"
                         type="button"
                         onClick={handleAddClick}
+                        testId={`card-${name}-button-add`}
                     />
                 </div>
             </div>

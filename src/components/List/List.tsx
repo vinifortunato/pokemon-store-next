@@ -1,13 +1,13 @@
 import { useCallback } from "react";
-import { Pokemon, Product } from "../../types/Common.types";
+import { Pokemon } from "../../types/Common.types";
 import Card from "../Card";
 import styles from './List.module.css'
 import { ListProps } from "./List.types";
 
-const List = ({ items, onItemClick }: ListProps) => {
-  const handleClick = useCallback((pokemon: Pokemon) => {
-    onItemClick(pokemon);
-  }, []);
+const List = ({ items = [], onItemClick }: ListProps) => {
+  const handleClick = useCallback((pokemon: Pokemon | null) => {
+    (pokemon && onItemClick) && onItemClick(pokemon);
+  }, [onItemClick]);
 
   const map = items.map((item) => {
     return (
@@ -16,7 +16,7 @@ const List = ({ items, onItemClick }: ListProps) => {
   });
 
   return (
-    <div className={styles.listContainer}>
+    <div className={styles.listContainer} data-testid="list">
       {map}
     </div>
   );
